@@ -1,0 +1,13 @@
+body {
+  display: grid; 
+  height: 100vh;
+}
+canvas {
+  --scale: 3;
+  width: calc(320px * var(--scale));
+  height: calc(200px * var(--scale));
+  place-self: center;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  border: 1px solid black;
+}

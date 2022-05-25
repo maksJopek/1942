@@ -2,7 +2,7 @@
 //   "/src/imgs/bg2.png",
 //   "/src/imgs/topbar.png",
 // ];
-import { alphabet } from "./consts";
+import { allChars } from "./consts";
 import { toKebabCase } from "./helpers";
 
 export const IMGS = {
@@ -27,9 +27,19 @@ export const IMGS = {
   bigCircleLeftToDown1: {} as HTMLImageElement,
   bigCircleLeftToDown2: {} as HTMLImageElement,
   bigCircleLeftToDown3: {} as HTMLImageElement,
+  simpleDown: {} as HTMLImageElement,
+  simpleRot1: {} as HTMLImageElement,
+  simpleRot2: {} as HTMLImageElement,
+  simpleRot3: {} as HTMLImageElement,
+  simpleRot4: {} as HTMLImageElement,
+  simpleUp: {} as HTMLImageElement, // po 4 klatki na sprite
   font: {
     white: {} as any,
     yellow: {} as any,
+    blue: {} as any,
+    red: {} as any,
+    green: {} as any,
+    purple: {} as any,
     ' ': {} as HTMLImageElement,
   },
   selector: {} as HTMLImageElement,
@@ -42,7 +52,7 @@ export default async function loadAllImages() {
     IMGS[key as keyof typeof IMGS] = await asyncImageLoader("/src/imgs/" + toKebabCase(key) + ".png") as any
   }
   for (const color of ['yellow', 'white']) {
-    for (const char of [...alphabet]) {
+    for (const char of allChars) {
       (((IMGS.font as any)[color] as any)[char]) = await asyncImageLoader("/src/imgs/font/" + color + "/" + encodeURIComponent(char) + ".png") as any
     }
   }

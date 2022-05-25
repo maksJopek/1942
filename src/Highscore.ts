@@ -50,9 +50,14 @@ export default class Highscore extends Drawable {
     while (x < 275) { ctx.drawImage(IMGS.font.yellow['-'], x, y); x += this.dx / 2; }
     x = 17;
     y += this.dy;
-    const botTxt = ['a', 't', 'h', ' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', ' ', ...this.name, ' ', 'z', 'y'];
+    const botTxt = ['2', 't', 'h', ' ', '0', '0', '0', '0', '7', '5', '9', ' ', ...this.name, ' ', 'z', 'y'];
     for (let char of botTxt) {
+      try {
       ctx.drawImage(IMGS.font.yellow[char], x, y);
+
+      } catch(e) {
+        debugger
+      }
       x += this.dx / 2;
     }
   }

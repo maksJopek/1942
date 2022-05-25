@@ -12,7 +12,7 @@ export const keys = {
   down: false,
   fire: false,
   repeat: false,
-  fps: 50,
+  fps: 40,
 }
 
 // window.onkeydown = window.onkeydown ?? ((e: KeyboardEvent) => e.repeat ? keys.fire = false : setKey(e.key, true))

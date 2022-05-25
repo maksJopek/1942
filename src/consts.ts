@@ -10,3 +10,4 @@ export const TOPBAR_HEIGHT = 24; // ms
 
 export const FPS = 1;
 export const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '.', '-', '&', '?', '!', 'man', 'woman', 'heart', 'rv', 'ed']
+export const allChars = [...alphabet, '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']

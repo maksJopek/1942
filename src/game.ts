@@ -56,6 +56,7 @@ export function cpuLoop() {
   // const collidingEnemy = enemies.filter(e => p.collides(e));
   // const collidingBullets = bullets.filter(b => p.collides(b));
   // if (collidingBullets.length || collidingEnemy.length) playerDied(collidingEnemy[0])
+  // playerDied({} as Enemy)
   setTimeout(cpuLoop, 1000 / keys.fps)
 }
 

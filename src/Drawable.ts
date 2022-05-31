@@ -1,4 +1,4 @@
-import { canvas, ctx } from "./consts";
+import { canvas, ctx, PLAYER_SIZE } from "./consts";
 import { IMGS } from "./Images";
 
 export default abstract class Drawable {
@@ -11,11 +11,27 @@ export default abstract class Drawable {
 
   constructor(public _x: number, public _y: number,) { }
 
-  collides(w: Drawable): boolean {
-    for (const square of this.squares) {
-      for (const s of w.squares) {
-        if (square.x < s.x2 && square.x2 > s.x &&
-          square.y < s.y2 && square.y2 > s.y) return true
+  collides(ws: Drawable[]): boolean {
+    if (this.width === 48 && ws.length > 0) {
+      // debugger
+      const alien = ws[0]
+      for (const square of this.squares) {
+        for (const s of alien.squares) {
+          if (square.x < s.x2 && square.x2 > s.x &&
+            square.y < s.y2 && square.y2 > s.y) console.log("aaa");
+        }
+      }
+    }
+    for (const w of ws) {
+      for (const square of this.squares) {
+        for (const s of w.squares) {
+          if (
+            square.x < s.x2 &&
+            square.x2 > s.x &&
+            square.y < s.y2 &&
+            square.y2 > s.y
+          ) return true
+        }
       }
     }
     return false;
@@ -49,8 +65,17 @@ export default abstract class Drawable {
       return
     }
     // Used only for Player
+    // const diff = Math.abs(IMGS.playerUp.height - (this.sprite as HTMLImageElement).height);
+    const left = this.sprite === IMGS.playerLeft
+    const right = this.sprite === IMGS.playerRight
+    const diff = left ? 1 : (right ? 2 : 0)
+
     if (val <= 15 + 24) this._y = 15 + 24;
-    else if (val + this.height >= canvas.height - 15) this._y = canvas.height - 15 - this.height;
+    // else if (val + this.height >= canvas.height - 15) this._y = canvas.height - 15 - this.height + diff;
+    else if (val + this.height >= canvas.height - 15) {
+      if (left || right) return
+      else this._y = canvas.height - 15 - this.height + diff;
+    }
     else this._y = val
   }
 
@@ -60,13 +85,17 @@ export default abstract class Drawable {
   /// Should be abstract but this is extended by Animation which doesnt move
   // abstract move(): boolean;
   move() { return true; };
+  isOutsideMap() { return this.x2 < 0 || this.y2 < 0 || this.x > canvas.width || this.y > canvas.height }
 
 }
 
 export class Rectangle extends Drawable {
   constructor(public begetter: Drawable, x?: number, y?: number, width?: number, height?: number) {
-    x = x ?? begetter.x
-    y = y ?? begetter.y
+    if (begetter.width === PLAYER_SIZE) {
+      console.log(begetter.x, begetter.y, begetter.width, begetter.height);
+    }
+    x = x ?? 0
+    y = y ?? 0
     super(x, y);
     this.change(x, y, width ?? begetter.width, height ?? begetter.height)
   }
@@ -75,14 +104,13 @@ export class Rectangle extends Drawable {
     this._y = y
     this.width = width
     this.height = height
-
   }
-  get x(): number { return this.begetter.x + this._x; }
-  get y(): number { return this.begetter.y + this._y; }
+  get x() { return this.begetter.x + this._x; }
+  get y() { return this.begetter.y + this._y; }
   set x(val) { this._x = val }
   set y(val) { this._y = val }
   get x2() { return this.x + this.width }
-  get y2() { return this.y + this.width }
+  get y2() { return this.y + this.height }
   sprite = "rgba(128,0,128, 0.5)"
 }
 // export abstract class Square {

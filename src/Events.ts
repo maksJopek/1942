@@ -11,8 +11,9 @@ export const keys = {
   up: false,
   down: false,
   fire: false,
+  roll: false,
   repeat: false,
-  fps: 40,
+  fps: 50,
 }
 
 // window.onkeydown = window.onkeydown ?? ((e: KeyboardEvent) => e.repeat ? keys.fire = false : setKey(e.key, true))
@@ -25,9 +26,11 @@ function setKey(key: string, val: boolean, repeat: boolean) {
   else if (["s", "j"].includes(key)) keys.down = val;
   else if (["d", "l"].includes(key)) keys.right = val;
   else if (["m", ";", "/"].includes(key)) { keys.fire = val; keys.repeat = repeat }
+  else if ([" "].includes(key)) keys.roll = val;
   else if (["r"].includes(key)) location.reload();
   else if (["f"].includes(key)) keys.fps = 50;
   else if (["g"].includes(key)) keys.fps = 1;
+  else if (["c"].includes(key)) keys.fps = 12;
   // console.log(key, val ? "keydown" : "keyup")
 }
 

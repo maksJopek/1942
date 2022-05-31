@@ -5,6 +5,7 @@ import { Background } from "./drawables/Background";
 import { Selector } from "./drawables/Selector";
 import { keys } from "./Events";
 import { IMGS } from "./Images";
+import { getPlace, getStorage, Score, setStorage } from "./Storage";
 
 export default class Highscore extends Drawable {
   width = canvas.width
@@ -13,16 +14,18 @@ export default class Highscore extends Drawable {
   imgPixels: ImageData | null = null;
   selector = new Selector(12, 37);
   _bx = 12
-  _by = 27
+  _by = 37
   moving = false;
   dx = 32;
   dy = 26;
   name = [' ', ' ', ' '];
   lastTimestamp = 0;
+  place: string[] | null = null;
+  score = 0
   constructor() {
     super(0, 0)
   }
-  drawHg(bg: Background) {
+  drawHg(bg: Background, s: number) {
     if (this.imgPixels == null) {
       const imgPixels = bg.getImageData();
       for (let y = 0; y < imgPixels.height; y++) {
@@ -36,6 +39,7 @@ export default class Highscore extends Drawable {
       }
       this.imgPixels = imgPixels;
     }
+    this.score = s
     ctx.putImageData(this.imgPixels, 0, 24, 0, 0, this.imgPixels.width, this.imgPixels.height);
     this.selector.draw()
     let x = 17, y = 40;
@@ -50,12 +54,12 @@ export default class Highscore extends Drawable {
     while (x < 275) { ctx.drawImage(IMGS.font.yellow['-'], x, y); x += this.dx / 2; }
     x = 17;
     y += this.dy;
-    const botTxt = ['2', 't', 'h', ' ', '0', '0', '0', '0', '7', '5', '9', ' ', ...this.name, ' ', 'z', 'y'];
+    if (this.place == null) this.place = getPlace(this.score).split('');
+    const botTxt = [...this.place, ' ', ...this.score.toString().padStart(7, '0').split(''), ' ', ...this.name, ' ', '0', '1'];
     for (let char of botTxt) {
       try {
-      ctx.drawImage(IMGS.font.yellow[char], x, y);
-
-      } catch(e) {
+        ctx.drawImage(IMGS.font.yellow[char], x, y);
+      } catch (e) {
         debugger
       }
       x += this.dx / 2;
@@ -82,11 +86,22 @@ export default class Highscore extends Drawable {
         const char = alphabet[x + y * 9];
         if (char === "rv") {
           for (let i = this.name.length - 1; i >= 0; i--) {
-            if (this.name[i] !== " ") this.name[i] = ' '
+            if (this.name[i] !== " ") { this.name[i] = ' '; break }
           }
         }
         else if (char === "ed") {
-          console.log("%csaving", "color: darkblue; font-size: 1.3em; background-color: darkgreen;");
+          console.log(this.score, this.name, this.place);
+          if (this.place == null) throw Error("Place is null");
+          const place = parseInt(this.place[0])
+          if (place < 7) {
+            const score = { name: this.name, score: this.score.toString(), world: "01" } as Score;
+            const ns = getStorage()
+            ns.splice(place - 1, 0, score);
+            ns.length = 6;
+            console.log(ns.forEach(console.log));
+
+            setStorage(ns);
+          }
         }
         else if (this.name.filter(a => a !== ' ').length === 3) this.name[2] = char;
         else {
@@ -108,17 +123,34 @@ export default class Highscore extends Drawable {
       return true;
     }
     this.moving = false
+
     return true;
   }
 
   get bx() { return this._bx }
   get by() { return this._by }
   set bx(val) {
-    if (val > 10 && val < 17 + this.dx * 8)
+    if (val < 12)
+      this._bx = 12
+    else if (val > 12 + this.dx * 8)
+      this._bx = 12 + this.dx * 8
+    else
       this._bx = val
+    // if (val > 10 && val < 17 + this.dx * 8)
+    //   this._bx = val
+    // else
+    //   this._bx = 12;
   }
   set by(val) {
-    if (val > 30 && val < 40 + this.dy * 3)
+    if (val < 37)
+      this._by = 37
+    else if (val > 37 + this.dy * 3)
+      this._by = 37 + this.dy * 3
+    else
       this._by = val
+    // if (val > 30 && val < 40 + this.dy * 3)
+    //   this._by = val
+    // else
+    //   this._by = 37;
   }
 } 

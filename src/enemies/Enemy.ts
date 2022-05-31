@@ -5,8 +5,10 @@ import Drawable, { Rectangle } from "../Drawable";
 export default abstract class Enemy extends Drawable {
   squares: Array<Rectangle> = [new Rectangle(this)]
   points = 5;
+  health = 2
+  deathAnim: (string | HTMLImageElement)[] = ["red"]
 
   shoot(bullet: Bullet[]) {
-    bullet.push(new Bullet(this.x + (this.width / 2) - Bullet.width / 2, this.y2, 0, BULLET_VEL, true))
+    bullet.push(new Bullet(this.x + (this.width / 2) - Bullet.width / 2, this.y2, 0, BULLET_VEL, false))
   }
 }

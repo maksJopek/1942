@@ -1,6 +1,6 @@
 import Anime from "./Animation";
 import Bullet from "./drawables/Bullet";
-import { BULLET_VEL, ctx, FIRE_DELAY, PLAYER_SIZE, PLAYER_VEL } from "./consts";
+import { BULLET_VEL, canvas, ctx, FIRE_DELAY, PLAYER_VEL } from "./consts";
 import Drawable, { Rectangle } from "./Drawable";
 import { keys } from "./Events";
 import { IMGS } from "./Images";
@@ -9,8 +9,8 @@ export default class Player extends Drawable {
   static startx = 250;
   static starty = 100;
 
-  width = PLAYER_SIZE;
-  height = PLAYER_SIZE;
+  width = IMGS.playerUp.width;
+  height = IMGS.playerUp.height;
   sprite = IMGS.empty;
   xvel = 0;
   yvel = 0;
@@ -19,6 +19,7 @@ export default class Player extends Drawable {
   squares: Rectangle[] = [new Rectangle(this)]
 
   lifes = 3;
+  power = 2;
 
   constructor() {
     super(Player.startx, Player.starty)
@@ -48,14 +49,14 @@ export default class Player extends Drawable {
     else if (keys.right) this.sprite = IMGS.playerRight
     else if (keys.left) this.sprite = IMGS.playerLeft
     else this.sprite = IMGS.playerUp
+    if (this.x + this.xvel <= 35) this.sprite = IMGS.playerUp
+    else if (this.x + this.xvel + this.width >= canvas.width - 35) this._x = canvas.width - 35 - this.width;
 
-    this.x += this.xvel;
+    this.width = this.sprite.width;
+    this.height = this.sprite.height;
+    this.squares = [new Rectangle(this)]
     this.y += this.yvel;
-
-    // this.squares[0].x = this.x
-    // this.squares[0].y = this.y
-    // this.squares[0].width = this.sprite.width
-    // this.squares[0].height = this.sprite.height
+    this.x += this.xvel;
 
     return true;
   }

@@ -1,19 +1,21 @@
 import { canvas } from "../consts";
-import Drawable from "../Drawable";
+import Drawable, { Rectangle } from "../Drawable";
 
 export default class Bullet extends Drawable {
   static width = 2;
   static height = 5;
   static color = "black";
+  width = 2;
+  height = 5;
   color = "black";
   sprite = "black";
 
-  squares = [this]
+  squares: Rectangle[] = [new Rectangle(this)]
 
   constructor(x: number, y: number, public xvel: number, public yvel: number, public players: boolean) {
     super(x, y);
-    this.width = Bullet.width;
-    this.height = Bullet.height;
+    // this.width = Bullet.width;
+    // this.height = Bullet.height;
   }
 
   move(): boolean {

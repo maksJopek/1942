@@ -11,7 +11,7 @@ export class Background extends Drawable {
   }
   // delta = -1751 + 24 + 2693;
   delta = 0
-  move(): boolean {
+  move() {
     this.delta += 1;
     return true;
   }

@@ -20,7 +20,6 @@ export function getStorage(): Storage {
 }
 
 export function setStorage(s: Storage) {
-  debugger
   localStorage.setItem("storage", JSON.stringify(s))
 }
 
@@ -33,7 +32,7 @@ export function getPlace(s: number): string {
       place = i; break;
     }
   }
-  if (place === 1) return "1st";
+  if (place === 1) return "top";
   else if (place === 2) return "2nd";
   else if (place === 3) return "3rd";
   else return place + "th";

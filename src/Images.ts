@@ -63,6 +63,11 @@ export const IMGS = {
   whiteStrangeRight: {} as HTMLImageElement,
   planeIcon: {} as HTMLImageElement,
   rollIcon: {} as HTMLImageElement,
+  startScreen0: {} as HTMLImageElement,
+  startScreen1: {} as HTMLImageElement,
+  startScreen2: {} as HTMLImageElement,
+  startScreen3: {} as HTMLImageElement,
+  startScreen4: {} as HTMLImageElement,
   font: {
     white: {} as any,
     yellow: {} as any,
@@ -93,6 +98,7 @@ export default async function loadAllImages() {
   IMGS.font[' '] = await asyncImageLoader("/src/imgs/font/ .png")
   IMGS.font.yellow[' '] = await asyncImageLoader("/src/imgs/font/ .png")
   IMGS.font.white[' '] = await asyncImageLoader("/src/imgs/font/ .png")
+  // Only numbers
   for (const c of allChars.filter(ch => !alphabet.includes(ch))) {
     IMGS.font.small.white[c] = await asyncImageLoader("/src/imgs/font/small/white/" + c + ".png");
   }

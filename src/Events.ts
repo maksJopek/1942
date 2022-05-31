@@ -31,6 +31,8 @@ function setKey(key: string, val: boolean, repeat: boolean) {
   else if (["f"].includes(key)) keys.fps = 50;
   else if (["g"].includes(key)) keys.fps = 1;
   else if (["c"].includes(key)) keys.fps = 12;
+  else if (["y"].includes(key)) keys.fps += 1;
+  else if (["t"].includes(key)) keys.fps -= 1;
   // console.log(key, val ? "keydown" : "keyup")
 }
 

@@ -6,17 +6,18 @@ import { keys } from "./Events";
 import { IMGS } from "./Images";
 
 export default class Player extends Drawable {
-  static startx = 250;
-  static starty = 100;
+  static startx = 175;
+  static starty = 155;
 
   width = IMGS.playerUp.width;
   height = IMGS.playerUp.height;
-  sprite = IMGS.empty;
+  sprite = IMGS.playerUp;
   xvel = 0;
   yvel = 0;
   lastShoot = 0;
   stopAtBorder = true;
-  squares: Rectangle[] = [new Rectangle(this)]
+  // squares: Rectangle[] = [new Rectangle(this)]
+  squares: Rectangle[] = []
 
   lifes = 3;
   power = 2;
@@ -54,7 +55,7 @@ export default class Player extends Drawable {
 
     this.width = this.sprite.width;
     this.height = this.sprite.height;
-    this.squares = [new Rectangle(this)]
+    // this.squares = [new Rectangle(this)]
     this.y += this.yvel;
     this.x += this.xvel;
 

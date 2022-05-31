@@ -92,13 +92,12 @@ export default class Highscore extends Drawable {
         else if (char === "ed") {
           console.log(this.score, this.name, this.place);
           if (this.place == null) throw Error("Place is null");
-          const place = parseInt(this.place[0])
+          const place = this.place[0] === 't' ? 1 :parseInt(this.place[0])
           if (place < 7) {
             const score = { name: this.name, score: this.score.toString(), world: "01" } as Score;
             const ns = getStorage()
             ns.splice(place - 1, 0, score);
             ns.length = 6;
-            console.log(ns.forEach(console.log));
 
             setStorage(ns);
           }

@@ -4,7 +4,7 @@ export interface Score {
   score: string;
   world: string;
 }
-export type Storage = Score[]
+export type Storage = Score[];
 export function getStorage(): Storage {
   const s = JSON.parse(localStorage.getItem("storage") ?? "{}");
   const storage = [
@@ -21,6 +21,10 @@ export function getStorage(): Storage {
 
 export function setStorage(s: Storage) {
   localStorage.setItem("storage", JSON.stringify(s))
+}
+
+export function getHighscore() {
+  return getStorage()[0].score;
 }
 
 export function getPlace(s: number): string {

@@ -13,11 +13,14 @@ export class TopBar extends Drawable {
   constructor() {
     super(0, 0)
   }
-  setData(score: number, lives: number, rolls: number, highscore?: number) {
+  setData(score: number, lives: number, rolls: number, highscore?: number | string) {
     this.score = score
     this.lives = lives
     this.rolls = rolls
-    this.highscore = highscore ?? this.highscore
+    if (highscore) {
+      if (typeof highscore === "string") highscore = parseInt(highscore)
+      this.highscore = highscore
+    }
   }
   draw() {
     if (this.sprite.src == null) this.sprite = IMGS.topbar;

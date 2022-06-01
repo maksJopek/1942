@@ -89,15 +89,19 @@ export default async function loadAllImages() {
     if (["empty", "font"].includes(key)) continue;
     IMGS[key as keyof typeof IMGS] = await asyncImageLoader("/src/imgs/" + toKebabCase(key) + ".png") as any
   }
-  for (const color of ['yellow', 'white']) {
+  for (const color of ['yellow', 'white', 'blue', 'red', 'green', 'purple']) {
     // for (const color of ['white']) {
     for (const char of allChars) {
       (((IMGS.font as any)[color] as any)[char]) = await asyncImageLoader("/src/imgs/font/" + color + "/" + encodeURIComponent(char) + ".png") as any
     }
   }
   IMGS.font[' '] = await asyncImageLoader("/src/imgs/font/ .png")
-  IMGS.font.yellow[' '] = await asyncImageLoader("/src/imgs/font/ .png")
   IMGS.font.white[' '] = await asyncImageLoader("/src/imgs/font/ .png")
+  IMGS.font.yellow[' '] = await asyncImageLoader("/src/imgs/font/ .png")
+  IMGS.font.blue[' '] = await asyncImageLoader("/src/imgs/font/ .png")
+  IMGS.font.red[' '] = await asyncImageLoader("/src/imgs/font/ .png")
+  IMGS.font.green[' '] = await asyncImageLoader("/src/imgs/font/ .png")
+  IMGS.font.purple[' '] = await asyncImageLoader("/src/imgs/font/ .png")
   // Only numbers
   for (const c of allChars.filter(ch => !alphabet.includes(ch))) {
     IMGS.font.small.white[c] = await asyncImageLoader("/src/imgs/font/small/white/" + c + ".png");

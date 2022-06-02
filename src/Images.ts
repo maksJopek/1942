@@ -120,13 +120,14 @@ export const IMGS = {
     },
     ' ': {} as HTMLImageElement,
   },
+  start: {} as any,
   selector: {} as HTMLImageElement,
   empty: {} as HTMLImageElement,
 };
 // window.IMGS = IMGS;
 export default async function loadAllImages() {
   for (const key in IMGS) {
-    if (["empty", "font"].includes(key)) continue;
+    if (["empty", "font", "start"].includes(key)) continue;
     IMGS[key as keyof typeof IMGS] = await asyncImageLoader("/src/imgs/" + toKebabCase(key) + ".png") as any
   }
   // for (const color of ['yellow', 'white', 'blue', 'red', 'green', 'purple']) {
@@ -146,6 +147,8 @@ export default async function loadAllImages() {
   for (const c of allChars.filter(ch => !alphabet.includes(ch))) {
     IMGS.font.small.white[c] = await asyncImageLoader("/src/imgs/font/small/white/" + c + ".png");
   }
+  for (let i = 1; i <= 215; i++)
+    IMGS.start[i] = await asyncImageLoader("/src/imgs/start/" + i + ".png");
 }
 async function asyncImageLoader(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {

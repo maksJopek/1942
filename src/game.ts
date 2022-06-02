@@ -18,6 +18,7 @@ import Strange from "./enemies/Strange";
 import White from "./enemies/White";
 import Startscreen from "./drawables/Startscreen";
 import { getHighscore } from "./Storage";
+import AnimStart from "./drawables/AnimStart";
 
 let p = new Player()
 let pLifes = 3;
@@ -32,15 +33,26 @@ let animations = [] as Anime[]
 let intervalId = 0;
 let rafId = 0;
 let showMenu = false
+let showAnimStart = true
 const bg = new Background()
 const tb = new TopBar()
 const hg = new Highscore()
+const animStart = new AnimStart(0, TOPBAR_HEIGHT)
+// const ss = new Startscreen();
 
-export function start() {
+export async function start() {
   p = new Player()
   bullets = [] as Bullet[]
   enemies = [] as Enemy[]
   animations = [] as Anime[]
+  // enemies.push(new BigCircle(25, -20))
+  // enemies.push(new Straight(20, 0))
+  // enemies.push(new Red1(0, 51))
+  // enemies.push(new Green1(115, canvas.height, true), new Green1(170, canvas.height, false))
+  // enemies.push(new Strange(160, canvas.height))
+  // enemies.push(new White(60, 0, true), new White(230, 0, false))
+  // enemies.push(new Red2(100, 0, true), new Red2(180, 0, false))
+  // enemies.push(new Green2(100, 0, true), new Green2(180, 0, false))
   newTimeout()
   rafId = requestAnimationFrame(gpuLoop)
 }
@@ -100,6 +112,10 @@ export function gpuLoop() {
 
   clearCtx()
 
+  if (showAnimStart) {
+    showAnimStart = animStart.draw()
+    return
+  }
   if (showMenu) {
     gpuMenu()
     return

@@ -5,8 +5,8 @@ import { keys } from "./Events";
 import { getPlayerDeathAnim, IMGS } from "./Images";
 
 export default class Player extends Drawable {
-  static startx = 175;
-  static starty = 155;
+  static startx = 144;
+  static starty = 122;
 
   width = IMGS.playerUp.width;
   height = IMGS.playerUp.height;

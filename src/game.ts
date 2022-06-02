@@ -28,37 +28,24 @@ let bullets = [] as Bullet[]
 const playerBullets = () => bullets.filter(b => b.players)
 const enemyBullets = () => bullets.filter(b => !b.players)
 let enemies = [] as Enemy[]
-// let bg = new Background();
 let animations = [] as Anime[]
 let intervalId = 0;
 let rafId = 0;
-let menu = true
+let showMenu = false
 const bg = new Background()
 const tb = new TopBar()
 const hg = new Highscore()
-// const ss = new Startscreen();
 
 export function start() {
   p = new Player()
   bullets = [] as Bullet[]
   enemies = [] as Enemy[]
   animations = [] as Anime[]
-  // enemies.push(new BigCircle(25, -20))
-  // enemies.push(new Straight(20, 0))
-  // enemies.push(new Red1(0, 51))
-  // enemies.push(new Green1(115, canvas.height, true), new Green1(170, canvas.height, false))
-  // enemies.push(new Strange(160, canvas.height))
-  // enemies.push(new White(60, 0, true), new White(230, 0, false))
-  // enemies.push(new Red2(100, 0, true), new Red2(180, 0, false))
-  // enemies.push(new Green2(100, 0, true), new Green2(180, 0, false))
   newTimeout()
   rafId = requestAnimationFrame(gpuLoop)
 }
 export function cpuLoop() {
-  // ss.move()
-  // newTimeout()
-  // return
-  if (menu) {
+  if (showMenu) {
     cpuMenu()
     newTimeout()
     return
@@ -74,24 +61,9 @@ export function cpuLoop() {
   bg.move()
   spawnEnemies()
   tb.setData(score, pLifes, rolls, highscore)
-  if (enemies.length === 0) {
-    // enemies.push(new BigCircle(25, -20))
-    // enemies.push(new Straight(25, -20))
-    // enemies.push(new Red1(25, -20))
-    // enemies.push(new Green1(115, canvas.height, true), new Green1(170, canvas.height, false))
-    // enemies.push(new Strange(160, canvas.height))
-    // enemies.push(new White(60, 0, true), new White(230, 0, false))
-    // enemies.push(new Red2(100, 0, true), new Red2(180, 0, false))
-    // enemies.push(new Green2(100, 0, true), new Green2(180, 0, false))
-    // setTimeout(() => enemies.push(new Straight(25, -20)), 1000)
-    // setTimeout(() => enemies.push(new BigCircle(25, -20)), 1000)
-    // setTimeout(() => enemies.push(new Red1(25, -20)), 1000)
-    // setTimeout(() => enemies.push(new Green1(115, canvas.height, true), new Green1(170, canvas.height, false)), 1000)
-    // setTimeout(() => enemies.push(new Strange(160, canvas.height)), 1000)
-  }
 
   // enemies = enemies.filter(e => !bullets.some(b => b.collides(e)))
-  enemies.forEach(e => Math.random() < 0.05 && e.shoot(bullets))
+  enemies.forEach(e => e.shoot(bullets))
   enemies = enemies.filter(e => !e.move())
 
   bullets = bullets.filter(b => !b.move())
@@ -106,20 +78,21 @@ export function cpuLoop() {
   enemies = enemies.filter(e => {
     if (e.collides(playerBullets())) {
       e.health -= p.power;
-      animations.push(new Anime(e, e.deathAnim))
       bullets = bullets.filter(b => !b.collides([e]))
       if (e.health < 1) {
+        animations.push(e.deathAnim)
         score += e.points
         return false
       }
-      return true
     }
     return true;
   })
   // console.log("aft: ", enemies.length);
   // playerDied({} as Enemy)
   if (bullCollPlay.length || enemCollPlay.length) playerDied(enemCollPlay)
-  else newTimeout()
+  // if (bullCollPlay.length || enemCollPlay.length) animations.push(p.deathAnimation)
+  // else newTimeout()
+  newTimeout()
 }
 
 export function gpuLoop() {
@@ -127,7 +100,7 @@ export function gpuLoop() {
 
   clearCtx()
 
-  if (menu) {
+  if (showMenu) {
     gpuMenu()
     return
   }
@@ -139,10 +112,12 @@ export function gpuLoop() {
 
   bg.draw()
   bullets.forEach(b => b.draw())
+  bullets.forEach(b => b.squares.forEach(s => s.draw()))
   p.squares.forEach(s => s.draw())
   p.draw()
   enemies.forEach(e => {
     e.draw()
+    e.squares.forEach(s => s.draw())
     if (e instanceof BigCircle) {
       e.squares.forEach(s => s.draw())
     }
@@ -153,19 +128,19 @@ export function gpuLoop() {
 
 export async function playerDied(_enemy: Enemy[]) {
   animations.push(p.deathAnimation)
-  p.width = 0;
-  p.height = 0;
-  clearTimeout(intervalId)
-  cancelAnimationFrame(rafId)
-  pLifes -= 1;
-  if (pLifes !== 0) {
-    await drawRestartScreen();
-    start()
-  } else {
-    hg.show = true
-    newTimeout()
-    requestAnimationFrame(gpuLoop)
-  }
+  p.alive = false
+  p.squares = []
+  // clearTimeout(intervalId)
+  // cancelAnimationFrame(rafId)
+  // pLifes -= 1;
+  // if (pLifes !== 0) {
+  //   await drawRestartScreen();
+  //   start()
+  // } else {
+  //   hg.show = true
+  //   newTimeout()
+  //   requestAnimationFrame(gpuLoop)
+  // }
 }
 
 export async function drawRestartScreen() {
@@ -180,6 +155,7 @@ const startscreen = new Startscreen()
 tb.setData(score, pLifes, rolls, highscore)
 function cpuMenu() {
   startscreen.move()
+  if (keys.fire === true) showMenu = false;
 }
 function gpuMenu() {
   tb.draw()
@@ -215,6 +191,6 @@ function spawnEnemies() {
   if (bg.delta === 2000 + 85 * 2) enemies.push(new White(60, 0, true), new White(230, 0, false))
   if (bg.delta === 2000 + 85 * 3) enemies.push(new White(60, 0, true))
 
-  if (bg.delta > 2200)
-    console.log(bg.delta);
+  // if (bg.delta > 2200)
+  //   console.log(bg.delta);
 }

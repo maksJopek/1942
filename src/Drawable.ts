@@ -73,7 +73,7 @@ export default abstract class Drawable {
     if (val <= 15 + 24) this._y = 15 + 24;
     // else if (val + this.height >= canvas.height - 15) this._y = canvas.height - 15 - this.height + diff;
     else if (val + this.height >= canvas.height - 15) {
-      if (left || right) return
+      if (left || right) this._y = canvas.height - 15 - this.height + diff + 1;
       else this._y = canvas.height - 15 - this.height + diff;
     }
     else this._y = val
@@ -90,6 +90,7 @@ export default abstract class Drawable {
 }
 
 export class Rectangle extends Drawable {
+  sprite = "rgba(128,0,128, 0.5)"
   constructor(public begetter: Drawable, x?: number, y?: number, width?: number, height?: number) {
     if (begetter.width === PLAYER_SIZE) {
       console.log(begetter.x, begetter.y, begetter.width, begetter.height);
@@ -111,7 +112,6 @@ export class Rectangle extends Drawable {
   set y(val) { this._y = val }
   get x2() { return this.x + this.width }
   get y2() { return this.y + this.height }
-  sprite = "rgba(128,0,128, 0.5)"
 }
 // export abstract class Square {
 //   constructor(public x: number, public y: number, public width: number, public height: number) { }

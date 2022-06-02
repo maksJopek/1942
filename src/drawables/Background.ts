@@ -10,8 +10,9 @@ export class Background extends Drawable {
     super(0, 0)
   }
   // delta = -1751 + 24 + 2693;
-  delta = 0
+  delta = 2500
   move() {
+    if (this.delta + 1 > 2580) return true
     this.delta += 1;
     return true;
   }

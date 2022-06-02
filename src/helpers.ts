@@ -6,3 +6,8 @@ export const toKebabCase = (str: string) => str
   .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
   ?.map(x => x.toLowerCase())
   .join('-');
+
+export function random(p: number): boolean {
+  if (p < 0 || p > 1) throw Error("Wrong probability - " + p)
+  return Math.random() < p;
+}

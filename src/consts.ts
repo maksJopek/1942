@@ -4,7 +4,7 @@ ctx.imageSmoothingEnabled = false;
 
 export const PLAYER_SIZE = 20; // canvas-dot
 export const PLAYER_VEL = 3.5; // canvas-dot / frame
-export const BULLET_VEL = 4.5; // canvas-dot / frame
+export const BULLET_VEL = 4; // canvas-dot / frame
 export const FIRE_DELAY = 300; // ms
 export const TOPBAR_HEIGHT = 24; // ms
 

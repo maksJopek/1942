@@ -1,7 +1,9 @@
 import { canvas } from "../consts";
 import { Rectangle } from "../Drawable";
+import Bullet from "../drawables/Bullet";
+import { random } from "../helpers";
 // import { keys } from "../Events";
-import { IMGS } from "../Images";
+import { getBigDeathAnim, IMGS } from "../Images";
 import Enemy from "./Enemy";
 
 export default class BigCircle extends Enemy {
@@ -232,6 +234,21 @@ export default class BigCircle extends Enemy {
     return this.x2 < 0 || this.y2 < 0 || this.x > canvas.width || this.y > canvas.height
   }
 
+  hasShooted0 = false
+  hasShooted32 = false
+  shoot(bullets: Bullet[]): boolean {
+    if (this.phase !== 0 && this.phase !== 32) return false
+    if (this.phase === 0 && this.hasShooted0) return false
+    if (this.phase === 32 && this.hasShooted32) return false
+    if (random(0.05)) {
+      if (super.shoot(bullets))
+        //@ts-expect-error
+        this["hasShooted" + this.phase] = true
+    }
+    return true;
+    // (new Bullet(this.width / 2, this.y2, 0, 2, false))
+  }
+
   readonly allSqaures = {
     bigCircleDown: [new Rectangle(this, 14, 0, 20, 8), new Rectangle(this, 20, 0, 8, 40), new Rectangle(this, 0, 22, 48, 12)],
     bigCircleDownToRight1: [new Rectangle(this, 4, 0, 14, 16), new Rectangle(this, 14, 10, 24, 20), new Rectangle(this, 0, 20, 24, 20)],
@@ -251,5 +268,6 @@ export default class BigCircle extends Enemy {
     bigCircleLeftToDown3: [new Rectangle(this, 20, 2, 14, 10), new Rectangle(this, 18, 12, 8, 26), new Rectangle(this, 26, 24, 12, 14), new Rectangle(this, 0, 12, 14, 12), new Rectangle(this, 14, 24, 4, 14), new Rectangle(this, 4, 24, 10, 6), new Rectangle(this, 12, 14, 8, 14)],
   };
 
+  deathAnim = getBigDeathAnim(this)
 }
 

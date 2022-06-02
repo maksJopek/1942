@@ -1,5 +1,5 @@
 import { Rectangle } from "../Drawable";
-import { IMGS } from "../Images";
+import { getSmallDeathAnim, IMGS } from "../Images";
 import Enemy from "./Enemy";
 
 export default class Red1 extends Enemy {
@@ -187,7 +187,9 @@ export default class Red1 extends Enemy {
     this.y += dy;
     this.width = this.sprite.width
     this.height = this.sprite.height
-    this.squares = [new Rectangle(this, 2, 2, this.width - 2, this.height - 2)]
+    this.squares = [new Rectangle(this, 2, 2, this.width - 4, this.height - 4)]
     return this.isOutsideMap()
   }
+  shoot(): boolean { return false }
+  deathAnim = getSmallDeathAnim(this)
 }

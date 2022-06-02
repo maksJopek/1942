@@ -1,5 +1,5 @@
 import { Rectangle } from "../Drawable";
-import { IMGS } from "../Images";
+import { getSmallDeathAnim, IMGS } from "../Images";
 import Enemy from "./Enemy";
 
 export default class White extends Enemy {
@@ -11,7 +11,7 @@ export default class White extends Enemy {
   phase = 0;
   spriteNum = 1;
   i = 0;
-  squares: Rectangle[] = [new Rectangle(this, 2, 2, this.width - 2, this.height - 2)]
+  squares: Rectangle[] = [new Rectangle(this)]
 
   constructor(x: number, y: number, public left: boolean) {
     super(x, y)
@@ -61,8 +61,11 @@ export default class White extends Enemy {
     this.y += dy;
     this.width = this.sprite.width
     this.height = this.sprite.height
-    this.squares = [new Rectangle(this, 2, 2, this.width - 2, this.height - 2)]
+    this.squares = [new Rectangle(this)]
     return this.isOutsideMap()
   }
+
+  shoot(): boolean { return false }
+  deathAnim = getSmallDeathAnim(this)
 }
 

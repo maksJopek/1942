@@ -1,5 +1,7 @@
 import { Rectangle } from "../Drawable";
-import { IMGS } from "../Images";
+import Bullet from "../drawables/Bullet";
+import { random } from "../helpers";
+import { getSmallDeathAnim, IMGS } from "../Images";
 import Enemy from "./Enemy";
 
 export default class Green1 extends Enemy {
@@ -53,7 +55,19 @@ export default class Green1 extends Enemy {
     this.y += dy;
     this.width = this.sprite.width
     this.height = this.sprite.height
-    this.squares = [new Rectangle(this, 2, 2, this.width - 2, this.height - 2)]
+    this.squares = [new Rectangle(this, 2, 2, this.width - 4, this.height - 4)]
     return this.isOutsideMap()
   }
+
+  hasShooted = false;
+  shoot(bullets: Bullet[]): boolean {
+    if (this.sprite !== IMGS.greenDown || this.hasShooted) return false;
+    if (random(0.008)) {
+      if (super.shoot(bullets))
+        this.hasShooted = true
+    }
+    return true;
+  }
+
+  deathAnim = getSmallDeathAnim(this)
 }

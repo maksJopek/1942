@@ -1,9 +1,8 @@
-import Anime from "./Animation";
 import Bullet from "./drawables/Bullet";
 import { BULLET_VEL, canvas, ctx, FIRE_DELAY, PLAYER_VEL } from "./consts";
 import Drawable, { Rectangle } from "./Drawable";
 import { keys } from "./Events";
-import { IMGS } from "./Images";
+import { getPlayerDeathAnim, IMGS } from "./Images";
 
 export default class Player extends Drawable {
   static startx = 175;
@@ -19,8 +18,8 @@ export default class Player extends Drawable {
   // squares: Rectangle[] = [new Rectangle(this)]
   squares: Rectangle[] = []
 
-  lifes = 3;
   power = 2;
+  alive = true;
 
   constructor() {
     super(Player.startx, Player.starty)
@@ -30,10 +29,11 @@ export default class Player extends Drawable {
     if (!keys.fire || keys.repeat) return;
     if (Date.now() - this.lastShoot < FIRE_DELAY) return;
     this.lastShoot = Date.now()
-    bullet.push(new Bullet(this.x + (this.width / 2) - Bullet.width / 2, this.y - Bullet.height, 0, -BULLET_VEL, true))
+    bullet.push(new Bullet(this.x + 2, this.y + 7, 0, -BULLET_VEL, true, this.power))
   }
 
   move() {
+    if (!this.alive) return false
     if (+keys.right ^ +keys.left) {
       keys.right ? this.xvel = PLAYER_VEL : this.xvel = -PLAYER_VEL;
     } else {
@@ -62,6 +62,7 @@ export default class Player extends Drawable {
     return true;
   }
   draw() {
+    if (!this.alive) return
     this.sprite = this.sprite ?? IMGS.playerUp;
     try {
       ctx.drawImage(this.sprite, this.x, this.y)
@@ -70,5 +71,5 @@ export default class Player extends Drawable {
     }
   }
 
-  get deathAnimation() { return new Anime(this, ["red", "green", "blue"]) }
+  deathAnimation = getPlayerDeathAnim(this)
 }

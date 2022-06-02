@@ -1,5 +1,8 @@
+import { BULLET_VEL, TOPBAR_HEIGHT } from "../consts";
 import { Rectangle } from "../Drawable";
-import { IMGS } from "../Images";
+import Bullet from "../drawables/Bullet";
+import { random } from "../helpers";
+import { getBigDeathAnim, IMGS } from "../Images";
 import Enemy from "./Enemy";
 
 export default class Strange extends Enemy {
@@ -88,5 +91,21 @@ export default class Strange extends Enemy {
     // this.squares = [new Rectangle(this, 2, 2, this.width - 2, this.height - 2)]
     return this.isOutsideMap()
   }
+
+  shoot(bullets: Bullet[]): boolean {
+    if (this.y2 < TOPBAR_HEIGHT) return false
+    if (random(0.01)) {
+      if (random(0.5)) {
+        bullets.push(new Bullet(this.x + (this.width / 2) - Bullet.width / 2, this.y2, 0, BULLET_VEL, false))
+      } else {
+        if (random(0.5)) bullets.push(new Bullet(this.x + (this.width / 2) - Bullet.width / 2, this.y2, BULLET_VEL - 1, BULLET_VEL - 1, false))
+        else bullets.push(new Bullet(this.x + (this.width / 2) - Bullet.width / 2, this.y2, -BULLET_VEL + 1, BULLET_VEL - 1, false))
+      }
+
+    }
+    return true
+  }
+
+  deathAnim = getBigDeathAnim(this)
 }
 

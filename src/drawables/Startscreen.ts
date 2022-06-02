@@ -31,10 +31,11 @@ export default class Startscreen extends Drawable {
       if (i === 0) place = "top";
       else if (i === 1) place = "2nd";
       else if (i === 2) place = "3rd";
-      else place = i + "th";
+      else place = (i + 1) + "th";
 
       chars.push([...place.split(''), ' ', ...score.score.padStart(7, '0').split(''), ' ', ...score.name, ' ', ...score.world.split('')])
     }
+
     if (this.si !== 0 && this.show0 !== true) {
       let x = 17, y = 40;
       for (const char of chars) {
@@ -67,7 +68,6 @@ export default class Startscreen extends Drawable {
     } else {
       //@ts-expect-error
       this.sprite = IMGS["startScreen" + this.si];
-      console.log("startScreen" + this.si);
 
       // if (this.i++ === 2) {
       if (this.i++ === 9) {

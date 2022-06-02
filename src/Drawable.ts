@@ -1,4 +1,5 @@
-import { canvas, ctx, PLAYER_SIZE } from "./consts";
+import { canvas, ctx, TOPBAR_HEIGHT } from "./consts";
+import { keys } from "./Events";
 import { IMGS } from "./Images";
 
 export default abstract class Drawable {
@@ -54,8 +55,8 @@ export default abstract class Drawable {
       return
     }
     // Used only for Player
-    if (val <= 35) { this._x = 35; this.sprite = IMGS.playerUp }
-    else if (val + this.width >= canvas.width - 35) { this._x = canvas.width - 35 - this.width; this.sprite = IMGS.playerUp }
+    if (val <= 25) { this._x = 25; this.sprite = IMGS.playerUp }
+    else if (val + this.width >= canvas.width - 25) { this._x = canvas.width - 25 - this.width; this.sprite = IMGS.playerUp }
     else this._x = val
   }
   get y() { return this._y }
@@ -70,10 +71,12 @@ export default abstract class Drawable {
     const right = this.sprite === IMGS.playerRight
     const diff = left ? 1 : (right ? 2 : 0)
 
-    if (val <= 15 + 24) this._y = 15 + 24;
-    // else if (val + this.height >= canvas.height - 15) this._y = canvas.height - 15 - this.height + diff;
+    const yLimit = 60
+    if (val <= yLimit + 24) this._y = yLimit + 24;
+    // else if (val + this.height >= canvas.height - yLimit) this._y = canvas.height - yLimit - this.height + diff;
     else if (val + this.height >= canvas.height - 15) {
-      if (left || right) this._y = canvas.height - 15 - this.height + diff + 1;
+      if (keys.up && keys.lasty === "up") this._y = val
+      else if (left || right) this._y = canvas.height - 15 - this.height + diff + 1;
       else this._y = canvas.height - 15 - this.height + diff;
     }
     else this._y = val
@@ -85,16 +88,13 @@ export default abstract class Drawable {
   /// Should be abstract but this is extended by Animation which doesnt move
   // abstract move(): boolean;
   move() { return true; };
-  isOutsideMap() { return this.x2 < 0 || this.y2 < 0 || this.x > canvas.width || this.y > canvas.height }
+  isOutsideMap() { return this.x2 < 0 || this.y2 < TOPBAR_HEIGHT || this.x > canvas.width || this.y > canvas.height }
 
 }
 
 export class Rectangle extends Drawable {
   sprite = "rgba(128,0,128, 0.5)"
   constructor(public begetter: Drawable, x?: number, y?: number, width?: number, height?: number) {
-    if (begetter.width === PLAYER_SIZE) {
-      console.log(begetter.x, begetter.y, begetter.width, begetter.height);
-    }
     x = x ?? 0
     y = y ?? 0
     super(x, y);

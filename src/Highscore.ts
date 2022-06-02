@@ -4,7 +4,8 @@ import Drawable from "./Drawable";
 import { Background } from "./drawables/Background";
 import { Selector } from "./drawables/Selector";
 import { keys } from "./Events";
-import { IMGS } from "./Images";
+import { startAgain } from "./game";
+import { IMGS, SOUNDS } from "./Images";
 import { getPlace, getStorage, Score, setStorage } from "./Storage";
 
 export default class Highscore extends Drawable {
@@ -16,6 +17,7 @@ export default class Highscore extends Drawable {
   _bx = 12
   _by = 37
   moving = false;
+  stop = false
   dx = 32;
   dy = 26;
   name = [' ', ' ', ' '];
@@ -66,25 +68,20 @@ export default class Highscore extends Drawable {
     }
   }
   move(): boolean {
+    if (this.stop) return true
     if (!this.moving) {
-      if (+keys.right ^ +keys.left) {
-        keys.right ? this.bx = this.selector.x + this.dx : this.bx = this.selector.x - this.dx
-      } else {
-        this.bx = this.selector.x
-      }
-
-      if (+keys.up ^ +keys.down) {
-        keys.down ? this.by = this.selector.y + this.dy : this.by = this.selector.y - this.dy
-      } else {
-        this.by = this.selector.y
-      }
-
       if (keys.fire && Date.now() - this.lastTimestamp > 300) {
         let [x, y] = [this.selector.x, this.selector.y]
         x = Math.floor(x / this.dx)
         y = Math.floor(y / this.dy) - 1
         const char = alphabet[x + y * 9];
         if (char === "rv") {
+          SOUNDS.rvCheck.play()
+          this.stop = true
+          SOUNDS.rvCheck.onended = () => {
+            this.stop = false
+            SOUNDS.rvCheck.onended = null
+          }
           for (let i = this.name.length - 1; i >= 0; i--) {
             if (this.name[i] !== " ") { this.name[i] = ' '; break }
           }
@@ -92,7 +89,7 @@ export default class Highscore extends Drawable {
         else if (char === "ed") {
           console.log(this.score, this.name, this.place);
           if (this.place == null) throw Error("Place is null");
-          const place = this.place[0] === 't' ? 1 :parseInt(this.place[0])
+          const place = this.place[0] === 't' ? 1 : parseInt(this.place[0])
           if (place < 7) {
             const score = { name: this.name, score: this.score.toString(), world: "01" } as Score;
             const ns = getStorage()
@@ -101,16 +98,39 @@ export default class Highscore extends Drawable {
 
             setStorage(ns);
           }
+          SOUNDS.name.pause()
+          startAgain()
+          return false;
         }
-        else if (this.name.filter(a => a !== ' ').length === 3) this.name[2] = char;
         else {
-          for (let i = 0; i < this.name.length; i++) {
-            if (this.name[i] === " ") { this.name[i] = char; break; }
+          SOUNDS.letterCheck.play()
+          this.stop = true
+          SOUNDS.letterCheck.onended = () => {
+            this.stop = false
+            SOUNDS.letterCheck.onended = null
+          }
+          if (this.name.filter(a => a !== ' ').length === 3) this.name[2] = char;
+          else {
+            for (let i = 0; i < this.name.length; i++) {
+              if (this.name[i] === " ") { this.name[i] = char; break; }
+            }
           }
         }
 
         this.lastTimestamp = Date.now()
       }
+      if (!this.stop && +keys.right ^ +keys.left) {
+        keys.right ? this.bx = this.selector.x + this.dx : this.bx = this.selector.x - this.dx
+      } else {
+        this.bx = this.selector.x
+      }
+
+      if (!this.stop && +keys.up ^ +keys.down) {
+        keys.down ? this.by = this.selector.y + this.dy : this.by = this.selector.y - this.dy
+      } else {
+        this.by = this.selector.y
+      }
+
     }
 
     if (this.selector.x !== this.bx || this.selector.y !== this.by) {

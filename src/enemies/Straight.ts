@@ -9,11 +9,19 @@ export default class Straight extends Enemy {
   sprite = IMGS.simpleDown;
   width = IMGS.simpleDown.width;
   height = IMGS.simpleDown.height;
-  vel = 2
+  vel = 2.5
   phase = 0;
   spriteNum = 1;
   i = 0;
-  squares: Rectangle[] = [new Rectangle(this, 2, 2, this.width - 2, this.height - 2)]
+  squares: Rectangle[] = [new Rectangle(this, 2, 2, this.width - 4, this.height - 4)]
+  drop = false
+
+  constructor(x: number, y: number, drop?: boolean) {
+    super(x, y)
+    if (drop) this.drop = drop
+    this.height = IMGS.simpleDown.height;
+    this._y = y - this.height
+  }
 
   move() {
     let dy = 0;
@@ -35,7 +43,7 @@ export default class Straight extends Enemy {
     this.y += dy;
     this.width = this.sprite.width
     this.height = this.sprite.height
-    this.squares = [new Rectangle(this, 2, 2, this.width - 2, this.height - 2)]
+    this.squares = [new Rectangle(this, 2, 2, this.width - 4, this.height - 4)]
     return this.y + this.height < 0
   }
 

@@ -8,7 +8,7 @@ export default class Green1 extends Enemy {
   sprite = IMGS.greenUp;
   width = IMGS.greenUp.width;
   height = IMGS.greenUp.height;
-  vel = 2
+  vel = 2.5
   phase = 0;
   spriteNum = 1;
   i = 0;

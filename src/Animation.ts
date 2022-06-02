@@ -4,6 +4,7 @@ import Drawable from "./Drawable";
 export default class Anime extends Drawable {
   i = 0;
   j = 0;
+  cb: any | null;
 
   constructor(public drawable: Drawable, public frames: Array<string | HTMLImageElement>) {
     super(drawable._x, drawable._y)
@@ -24,6 +25,7 @@ export default class Anime extends Drawable {
       } catch (e) { debugger }
     }
     if (++this.j === 5) { this.i++; this.j = 0; }
+    if (this.i === this.frames.length && this.cb) this.cb()
     return this.i !== this.frames.length;
   }
 }

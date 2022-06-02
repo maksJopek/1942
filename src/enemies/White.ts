@@ -1,4 +1,6 @@
 import { Rectangle } from "../Drawable";
+import Bullet from "../drawables/Bullet";
+import { random } from "../helpers";
 import { getSmallDeathAnim, IMGS } from "../Images";
 import Enemy from "./Enemy";
 
@@ -15,6 +17,8 @@ export default class White extends Enemy {
 
   constructor(x: number, y: number, public left: boolean) {
     super(x, y)
+    this.height = IMGS.whiteDown.height;
+    this._y = y - this.height
   }
 
   move() {
@@ -65,7 +69,15 @@ export default class White extends Enemy {
     return this.isOutsideMap()
   }
 
-  shoot(): boolean { return false }
+  hasShooted = false;
+  shoot(bullets: Bullet[]): boolean {
+    if (this.sprite !== IMGS.whiteDown || this.hasShooted) return false;
+    if (random(0.008)) {
+      if (super.shoot(bullets))
+        this.hasShooted = true
+    }
+    return true;
+  }
   deathAnim = getSmallDeathAnim(this)
 }
 

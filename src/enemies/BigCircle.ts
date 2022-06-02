@@ -11,8 +11,11 @@ export default class BigCircle extends Enemy {
   height = 40
   sprite: HTMLImageElement | string = IMGS.bigCircleDown;
   strSprite = "bigCircleDown"
+  si = 0;
+  changeSprite = true;
   vel = 2
-  health = 20
+  health = 30
+  points = 1100
 
   phase = 0;
 
@@ -228,6 +231,23 @@ export default class BigCircle extends Enemy {
       default:
         break;
     }
+
+    if (this.health < 30 - 20) {
+      if (this.si++ > 3) { this.changeSprite = !this.changeSprite; this.si = 0; }
+    }
+    else if (this.health < 30 - 10) {
+      if (this.si++ > 8) { this.changeSprite = !this.changeSprite; this.si = 0; }
+    }
+    else if (this.health < 30) {
+      if (this.si++ > 30) { this.changeSprite = !this.changeSprite; this.si = 0; }
+    }
+    if (this.changeSprite === true && this.health < 30)
+      //@ts-expect-error
+      this.sprite = IMGS[this.strSprite + "Red"]
+    else
+      //@ts-expect-error
+      this.sprite = IMGS[this.strSprite]
+
 
     this.x += xShift;
     this.y += yShift;

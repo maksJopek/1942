@@ -10,24 +10,51 @@ export const IMGS = {
   playerUp: {} as HTMLImageElement,
   playerLeft: {} as HTMLImageElement,
   playerRight: {} as HTMLImageElement,
+  playerSmall: {} as HTMLImageElement,
+  playerRot1: {} as HTMLImageElement,
+  playerRot2: {} as HTMLImageElement,
+  playerRot3: {} as HTMLImageElement,
+  playerRot4: {} as HTMLImageElement,
+  playerRot5: {} as HTMLImageElement,
+  playerRot6: {} as HTMLImageElement,
+  playerRot7: {} as HTMLImageElement,
+  playerRot8: {} as HTMLImageElement,
   bigCircleDown: {} as HTMLImageElement,
+  bigCircleDownRed: {} as HTMLImageElement,
   bigCircleDownToRight1: {} as HTMLImageElement,
+  bigCircleDownToRight1Red: {} as HTMLImageElement,
   bigCircleDownToRight2: {} as HTMLImageElement,
+  bigCircleDownToRight2Red: {} as HTMLImageElement,
   bigCircleDownToRight3: {} as HTMLImageElement,
+  bigCircleDownToRight3Red: {} as HTMLImageElement,
   bigCircleRight: {} as HTMLImageElement,
+  bigCircleRightRed: {} as HTMLImageElement,
   bigCircleRightToUp1: {} as HTMLImageElement,
+  bigCircleRightToUp1Red: {} as HTMLImageElement,
   bigCircleRightToUp2: {} as HTMLImageElement,
+  bigCircleRightToUp2Red: {} as HTMLImageElement,
   bigCircleRightToUp3: {} as HTMLImageElement,
+  bigCircleRightToUp3Red: {} as HTMLImageElement,
   bigCircleUp: {} as HTMLImageElement,
+  bigCircleUpRed: {} as HTMLImageElement,
   bigCircleUpToLeft1: {} as HTMLImageElement,
+  bigCircleUpToLeft1Red: {} as HTMLImageElement,
   bigCircleUpToLeft2: {} as HTMLImageElement,
+  bigCircleUpToLeft2Red: {} as HTMLImageElement,
   bigCircleUpToLeft3: {} as HTMLImageElement,
+  bigCircleUpToLeft3Red: {} as HTMLImageElement,
   bigCircleLeft: {} as HTMLImageElement,
+  bigCircleLeftRed: {} as HTMLImageElement,
   bigCircleLeftToDown1: {} as HTMLImageElement,
+  bigCircleLeftToDown1Red: {} as HTMLImageElement,
   bigCircleLeftToDown2: {} as HTMLImageElement,
+  bigCircleLeftToDown2Red: {} as HTMLImageElement,
   bigCircleLeftToDown3: {} as HTMLImageElement,
+  bigCircleLeftToDown3Red: {} as HTMLImageElement,
   bigStrangeUp0: {} as HTMLImageElement,
+  bigStrangeUp0Red: {} as HTMLImageElement,
   bigStrangeUp1: {} as HTMLImageElement,
+  bigStrangeUp1Red: {} as HTMLImageElement,
   simpleDown: {} as HTMLImageElement,
   simpleRot1: {} as HTMLImageElement,
   simpleRot2: {} as HTMLImageElement,
@@ -103,11 +130,13 @@ export const IMGS = {
   enemyBullet: {} as HTMLImageElement,
   planeIcon: {} as HTMLImageElement,
   rollIcon: {} as HTMLImageElement,
-  // startScreen0: {} as HTMLImageElement,
-  // startScreen1: {} as HTMLImageElement,
-  // startScreen2: {} as HTMLImageElement,
-  // startScreen3: {} as HTMLImageElement,
-  // startScreen4: {} as HTMLImageElement,
+  powerup: {} as HTMLImageElement,
+  startScreen0: {} as HTMLImageElement,
+  startScreen1: {} as HTMLImageElement,
+  startScreen2: {} as HTMLImageElement,
+  startScreen3: {} as HTMLImageElement,
+  startScreen4: {} as HTMLImageElement,
+  restartScreen: {} as HTMLImageElement,
   font: {
     white: {} as any,
     yellow: {} as any,
@@ -124,31 +153,34 @@ export const IMGS = {
   selector: {} as HTMLImageElement,
   empty: {} as HTMLImageElement,
 };
+export const URL = "/"
 // window.IMGS = IMGS;
 export default async function loadAllImages() {
   for (const key in IMGS) {
     if (["empty", "font", "start"].includes(key)) continue;
-    IMGS[key as keyof typeof IMGS] = await asyncImageLoader("/src/imgs/" + toKebabCase(key) + ".png") as any
+    IMGS[key as keyof typeof IMGS] = await asyncImageLoader(URL + "src/imgs/" + toKebabCase(key) + ".png") as any
   }
-  // for (const color of ['yellow', 'white', 'blue', 'red', 'green', 'purple']) {
-  for (const color of ['white']) {
+  for (const color of ['yellow', 'white', 'blue', 'red', 'green', 'purple']) {
+    // for (const color of ['white', 'yellow']) {
     for (const char of allChars) {
-      (((IMGS.font as any)[color] as any)[char]) = await asyncImageLoader("/src/imgs/font/" + color + "/" + encodeURIComponent(char) + ".png") as any
+      (((IMGS.font as any)[color] as any)[char]) = await asyncImageLoader(URL + "src/imgs/font/" + color + "/" + encodeURIComponent(char) + ".png") as any
     }
   }
-  IMGS.font[' '] = await asyncImageLoader("/src/imgs/font/ .png")
-  IMGS.font.white[' '] = await asyncImageLoader("/src/imgs/font/ .png")
-  IMGS.font.yellow[' '] = await asyncImageLoader("/src/imgs/font/ .png")
-  IMGS.font.blue[' '] = await asyncImageLoader("/src/imgs/font/ .png")
-  IMGS.font.red[' '] = await asyncImageLoader("/src/imgs/font/ .png")
-  IMGS.font.green[' '] = await asyncImageLoader("/src/imgs/font/ .png")
-  IMGS.font.purple[' '] = await asyncImageLoader("/src/imgs/font/ .png")
+  IMGS.font[' '] = await asyncImageLoader(URL + "src/imgs/font/ .png")
+  IMGS.font.white[' '] = await asyncImageLoader(URL + "src/imgs/font/ .png")
+  IMGS.font.white['%'] = await asyncImageLoader(URL + "src/imgs/font/%25.png")
+  IMGS.font.yellow[' '] = await asyncImageLoader(URL + "src/imgs/font/ .png")
+  IMGS.font.yellow['='] = await asyncImageLoader(URL + "src/imgs/font/=.png")
+  IMGS.font.blue[' '] = await asyncImageLoader(URL + "src/imgs/font/ .png")
+  IMGS.font.red[' '] = await asyncImageLoader(URL + "src/imgs/font/ .png")
+  IMGS.font.green[' '] = await asyncImageLoader(URL + "src/imgs/font/ .png")
+  IMGS.font.purple[' '] = await asyncImageLoader(URL + "src/imgs/font/ .png")
   // Only numbers
   for (const c of allChars.filter(ch => !alphabet.includes(ch))) {
-    IMGS.font.small.white[c] = await asyncImageLoader("/src/imgs/font/small/white/" + c + ".png");
+    IMGS.font.small.white[c] = await asyncImageLoader(URL + "src/imgs/font/small/white/" + c + ".png");
   }
   for (let i = 1; i <= 215; i++)
-    IMGS.start[i] = await asyncImageLoader("/src/imgs/start/" + i + ".png");
+    IMGS.start[i] = await asyncImageLoader(URL + "src/imgs/start/" + i + ".png");
 }
 async function asyncImageLoader(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -157,6 +189,37 @@ async function asyncImageLoader(url: string): Promise<HTMLImageElement> {
     image.onload = () => resolve(image)
     image.onerror = () => { console.log("img did not load", url); reject() }
   })
+}
+async function asyncSoundLoader(url: string): Promise<HTMLAudioElement> {
+  return new Promise((resolve, reject) => {
+    const image = new Audio(url)
+    image.src = url
+    image.oncanplaythrough = () => resolve(image)
+    image.onerror = () => { console.log("img did not load", url); reject() }
+  })
+}
+export interface Sound extends HTMLAudioElement {
+  playFromBegin: () => void;
+}
+export const SOUNDS = {
+  enemyDie: {} as Sound,
+  fire: {} as Sound,
+  mainTheme: {} as Sound,
+  name: {} as Sound,
+  playerDeath: {} as Sound,
+  startLevel: {} as Sound,
+  win: {} as Sound,
+  powerup: {} as Sound,
+  letterCheck: {} as Sound,
+  rvCheck: {} as Sound,
+}
+export async function loadAllSounds() {
+  for (const key in SOUNDS) {
+    const toBeSound = await asyncSoundLoader(URL + "src/audios/" + toKebabCase(key) + ".mp3") as Sound
+    toBeSound.playFromBegin = function() { this.currentTime = 0; this.play() }
+    if (["mainTheme", "win", "name"].includes(key)) toBeSound.loop = true;
+    SOUNDS[key as keyof typeof SOUNDS] = toBeSound;
+  }
 }
 
 export function getSmallDeathAnim(t: Enemy) {

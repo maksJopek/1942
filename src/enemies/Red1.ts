@@ -6,7 +6,7 @@ export default class Red1 extends Enemy {
   sprite = IMGS.redRight;
   width = IMGS.redRight.width;
   height = IMGS.redRight.height;
-  vel = 3
+  vel = 3.5
   phase = 0;
   spriteNum = 1;
   i = 0;
@@ -190,6 +190,6 @@ export default class Red1 extends Enemy {
     this.squares = [new Rectangle(this, 2, 2, this.width - 4, this.height - 4)]
     return this.isOutsideMap()
   }
-  shoot(): boolean { return false }
+  shoot() { return false }
   deathAnim = getSmallDeathAnim(this)
 }

@@ -18,7 +18,6 @@ export default class Bullet extends Drawable {
     this.width = (this.sprite as HTMLImageElement).width
     this.height = (this.sprite as HTMLImageElement).height
     this.squares = [new Rectangle(this)]
-    console.log(this.width, this.height);
   }
 
   move(): boolean {

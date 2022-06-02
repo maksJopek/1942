@@ -6,13 +6,15 @@ export default class Red2 extends Enemy {
   sprite = IMGS.redDown;
   width = IMGS.redDown.width;
   height = IMGS.redDown.height;
-  vel = 2;
+  vel = 2.5;
   phase = 0;
   i = 0;
   squares: Rectangle[] = [new Rectangle(this, 2, 2, this.width - 2, this.height - 2)]
 
   constructor(x: number, y: number, public left: boolean) {
     super(x, y)
+    this.height = IMGS.redDown.height;
+    this._y = y - this.height
   }
 
   move() {

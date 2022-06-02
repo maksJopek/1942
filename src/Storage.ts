@@ -12,9 +12,10 @@ export function getStorage(): Storage {
     { name: "...".split(''), score: "35000", world: "02" },
     { name: "...".split(''), score: "30000", world: "01" },
     { name: "...".split(''), score: "25000", world: "01" },
-    { name: "...".split(''), score: "20000", world: "01" },
-    { name: "...".split(''), score: "15000", world: "01" },
+    { name: "...".split(''), score: "00000", world: "01" },
+    { name: "...".split(''), score: "00000", world: "01" },
   ] as Storage;
+
   if (s[1] == null) return storage
   return s;
 }
@@ -29,7 +30,7 @@ export function getHighscore() {
 
 export function getPlace(s: number): string {
   const storage = getStorage();
-  let place = 7
+  let place = 6
   for (let i = 1; i <= storage.length; i++) {
     let sc = parseInt(storage[i - 1]['score']);
     if (s > sc) {

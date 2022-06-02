@@ -12,9 +12,13 @@ export default class Strange extends Enemy {
   vel = 1
   phase = 0;
   spriteCounter = 0;
+  si = 0;
+  changeSprite = true;
   spriteNum = 1;
   i = 0;
   squares: Rectangle[] = [new Rectangle(this, 2, 2, this.width - 2, this.height - 2)]
+  health = 30
+  points = 2100
 
   move() {
     let dx = 0, dy = 0;
@@ -82,10 +86,26 @@ export default class Strange extends Enemy {
         break;
     }
 
+    if (this.spriteCounter++ === 3) { this.spriteNum ^= 1; this.spriteCounter = 0; }
+    let strSprite = "bigStrangeUp" + this.spriteNum;
+    if (this.health < 30 - 20) {
+      if (this.si++ > 3) { this.changeSprite = !this.changeSprite; this.si = 0; }
+    }
+    else if (this.health < 30 - 10) {
+      if (this.si++ > 8) { this.changeSprite = !this.changeSprite; this.si = 0; }
+    }
+    else if (this.health < 30) {
+      if (this.si++ > 30) { this.changeSprite = !this.changeSprite; this.si = 0; }
+    }
+    if (this.changeSprite === true && this.health < 30)
+      //@ts-expect-error
+      this.sprite = IMGS[strSprite + "Red"]
+    else
+      //@ts-expect-error
+      this.sprite = IMGS[strSprite]
+
     this.x += dx;
     this.y += dy;
-    //@ts-expect-error
-    if (this.spriteCounter++ === 3) { this.spriteNum ^= 1; this.sprite = IMGS["bigStrangeUp" + this.spriteNum]; this.spriteCounter = 0; }
     // this.width = this.sprite.width
     // this.height = this.sprite.height
     // this.squares = [new Rectangle(this, 2, 2, this.width - 2, this.height - 2)]
@@ -96,10 +116,10 @@ export default class Strange extends Enemy {
     if (this.y2 < TOPBAR_HEIGHT) return false
     if (random(0.01)) {
       if (random(0.5)) {
-        bullets.push(new Bullet(this.x + (this.width / 2) - Bullet.width / 2, this.y2, 0, BULLET_VEL, false))
+        bullets.push(new Bullet(this.x + (this.width / 2) - Bullet.width / 2, this.y2, 0, BULLET_VEL / 2, false))
       } else {
-        if (random(0.5)) bullets.push(new Bullet(this.x + (this.width / 2) - Bullet.width / 2, this.y2, BULLET_VEL - 1, BULLET_VEL - 1, false))
-        else bullets.push(new Bullet(this.x + (this.width / 2) - Bullet.width / 2, this.y2, -BULLET_VEL + 1, BULLET_VEL - 1, false))
+        if (random(0.5)) bullets.push(new Bullet(this.x + (this.width / 2) - Bullet.width / 2, this.y2, BULLET_VEL / 2, BULLET_VEL / 2, false))
+        else bullets.push(new Bullet(this.x + (this.width / 2) - Bullet.width / 2, this.y2, -BULLET_VEL / 2, BULLET_VEL / 2, false))
       }
 
     }

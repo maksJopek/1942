@@ -16,6 +16,8 @@ export default class Green2 extends Enemy {
 
   constructor(x: number, y: number, public left: boolean) {
     super(x, y)
+    this.height = IMGS.greenDown.height;
+    this._y = y - this.height
   }
 
   move() {

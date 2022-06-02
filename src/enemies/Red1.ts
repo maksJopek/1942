@@ -10,7 +10,7 @@ export default class Red1 extends Enemy {
   phase = 0;
   spriteNum = 1;
   i = 0;
-  squares: Rectangle[] = [new Rectangle(this, 2, 2, this.width - 2, this.height - 2)]
+  squares: Rectangle[] = [new Rectangle(this, 2, 2, this.width - 4, this.height - 4)]
 
   move() {
     let dx = 0, dy = 0;

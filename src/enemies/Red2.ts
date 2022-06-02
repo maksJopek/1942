@@ -9,7 +9,7 @@ export default class Red2 extends Enemy {
   vel = 2.5;
   phase = 0;
   i = 0;
-  squares: Rectangle[] = [new Rectangle(this, 2, 2, this.width - 2, this.height - 2)]
+  squares: Rectangle[] = [new Rectangle(this, 2, 2, this.width - 4, this.height - 4)]
 
   constructor(x: number, y: number, public left: boolean) {
     super(x, y)

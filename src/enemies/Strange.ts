@@ -16,7 +16,15 @@ export default class Strange extends Enemy {
   changeSprite = true;
   spriteNum = 1;
   i = 0;
-  squares: Rectangle[] = [new Rectangle(this, 2, 2, this.width - 2, this.height - 2)]
+  squares: Rectangle[] = [
+    new Rectangle(this, 22, 0, 4, 37),
+    new Rectangle(this, 14, 31, 20, 5),
+    new Rectangle(this, 0, 8, 48, 8),
+    new Rectangle(this, 10, 5, 8, 3),
+    new Rectangle(this, 30, 4, 8, 4),
+    new Rectangle(this, 8, 16, 32, 2),
+    new Rectangle(this, 18, 18, 12, 3),
+  ]
   health = 30
   points = 2100
 

@@ -29,12 +29,12 @@ function setKey(key: string, val: boolean, repeat: boolean) {
   else if (["d", "l"].includes(key)) { keys.right = val; keys.lastx = "right" }
   else if (["m", ";", "/"].includes(key)) { keys.fire = val; keys.repeat = repeat }
   else if ([" "].includes(key)) keys.roll = val;
-  else if (["r"].includes(key)) location.reload();
-  else if (["f"].includes(key)) keys.fps = 50;
-  else if (["g"].includes(key)) keys.fps = 1;
-  else if (["c"].includes(key)) keys.fps = 12;
-  else if (["y"].includes(key)) keys.fps += 1;
-  else if (["t"].includes(key)) keys.fps -= 1;
+  // else if (["r"].includes(key)) location.reload();
+  // else if (["f"].includes(key)) keys.fps = 50;
+  // else if (["g"].includes(key)) keys.fps = 1;
+  // else if (["c"].includes(key)) keys.fps = 12;
+  // else if (["y"].includes(key)) keys.fps += 1;
+  // else if (["t"].includes(key)) keys.fps -= 1;
   // console.log(key, val ? "keydown" : "keyup")
 }
 

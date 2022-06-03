@@ -153,7 +153,7 @@ export const IMGS = {
   selector: {} as HTMLImageElement,
   empty: {} as HTMLImageElement,
 };
-export const URL = "/"
+export const URL = "/maks/szkola/apkKli/1942/"
 // window.IMGS = IMGS;
 export default async function loadAllImages() {
   for (const key in IMGS) {

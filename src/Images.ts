@@ -153,17 +153,36 @@ export const IMGS = {
   selector: {} as HTMLImageElement,
   empty: {} as HTMLImageElement,
 };
-export const URL = "/maks/szkola/apkKli/1942/"
+export const URL = ""
 // window.IMGS = IMGS;
-export default async function loadAllImages() {
+export async function loadAllImages() {
+  const prImgs = []
   for (const key in IMGS) {
     if (["empty", "font", "start"].includes(key)) continue;
-    IMGS[key as keyof typeof IMGS] = await asyncImageLoader(URL + "src/imgs/" + toKebabCase(key) + ".png") as any
+
+    prImgs.push(asyncImageLoader(URL + "src/imgs/" + toKebabCase(key) + ".png"))
+    // IMGS[key as keyof typeof IMGS] = await asyncImageLoader(URL + "src/imgs/" + toKebabCase(key) + ".png") as any
   }
+  const imgs = await Promise.all(prImgs)
+  for (const [i, key] of Object.keys(IMGS).entries()) {
+    if (["empty", "font", "start"].includes(key)) continue;
+    IMGS[key as keyof typeof IMGS] = imgs[i]
+  }
+
+  const prLetters = {} as { [key: string]: Promise<HTMLImageElement>[] }
+  const letters = {} as { [key: string]: HTMLImageElement[] }
   for (const color of ['yellow', 'white', 'blue', 'red', 'green', 'purple']) {
     // for (const color of ['white', 'yellow']) {
+    prLetters[color] = [] as Promise<HTMLImageElement>[]
     for (const char of allChars) {
-      (((IMGS.font as any)[color] as any)[char]) = await asyncImageLoader(URL + "src/imgs/font/" + color + "/" + encodeURIComponent(char) + ".png") as any
+      prLetters[color].push(asyncImageLoader(URL + "src/imgs/font/" + color + "/" + encodeURIComponent(char) + ".png") as any)
+      // (((IMGS.font as any)[color] as any)[char]) = await asyncImageLoader(URL + "src/imgs/font/" + color + "/" + encodeURIComponent(char) + ".png") as any
+    }
+  }
+  for (const color in prLetters) {
+    letters[color] = await Promise.all(prLetters[color])
+    for (const [i, char] of allChars.entries()) {
+      IMGS.font[color as keyof typeof IMGS.font][char] = letters[color][i]
     }
   }
   IMGS.font[' '] = await asyncImageLoader(URL + "src/imgs/font/ .png")
@@ -175,12 +194,20 @@ export default async function loadAllImages() {
   IMGS.font.red[' '] = await asyncImageLoader(URL + "src/imgs/font/ .png")
   IMGS.font.green[' '] = await asyncImageLoader(URL + "src/imgs/font/ .png")
   IMGS.font.purple[' '] = await asyncImageLoader(URL + "src/imgs/font/ .png")
+
   // Only numbers
   for (const c of allChars.filter(ch => !alphabet.includes(ch))) {
     IMGS.font.small.white[c] = await asyncImageLoader(URL + "src/imgs/font/small/white/" + c + ".png");
   }
-  for (let i = 1; i <= 215; i++)
-    IMGS.start[i] = await asyncImageLoader(URL + "src/imgs/start/" + i + ".png");
+
+  const prBg = []
+  for (let i = 1; i <= 215; i++) {
+    prBg.push(asyncImageLoader(URL + "src/imgs/start/" + i + ".png"));
+  }
+  const bg = await Promise.all(prBg)
+  for (let i = 1; i <= 215; i++) {
+    IMGS.start[i] = bg[i];
+  }
 }
 async function asyncImageLoader(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -190,11 +217,11 @@ async function asyncImageLoader(url: string): Promise<HTMLImageElement> {
     image.onerror = () => { console.log("img did not load", url); reject() }
   })
 }
-async function asyncSoundLoader(url: string): Promise<HTMLAudioElement> {
+async function asyncSoundLoader(url: string): Promise<Sound> {
   return new Promise((resolve, reject) => {
     const image = new Audio(url)
     image.src = url
-    image.oncanplaythrough = () => resolve(image)
+    image.oncanplaythrough = () => resolve(image as Sound)
     image.onerror = () => { console.log("img did not load", url); reject() }
   })
 }
@@ -214,12 +241,26 @@ export const SOUNDS = {
   rvCheck: {} as Sound,
 }
 export async function loadAllSounds() {
+  const sounds = []
   for (const key in SOUNDS) {
-    const toBeSound = await asyncSoundLoader(URL + "src/audios/" + toKebabCase(key) + ".mp3") as Sound
-    toBeSound.playFromBegin = function() { this.currentTime = 0; this.play() }
-    if (["mainTheme", "win", "name"].includes(key)) toBeSound.loop = true;
-    SOUNDS[key as keyof typeof SOUNDS] = toBeSound;
+    sounds.push(asyncSoundLoader(URL + "src/audios/" + toKebabCase(key) + ".mp3"))
   }
+  const responses = await Promise.all(sounds)
+  for (const [i, key] of Object.keys(SOUNDS).entries()) {
+    let sound = responses[i]
+    sound.playFromBegin = function() { this.currentTime = 0; this.play() }
+    if (["mainTheme", "win", "name"].includes(key)) sound.loop = true;
+    SOUNDS[key as keyof typeof SOUNDS] = sound;
+  }
+  // for (const sound of sounds) {
+
+  // }
+  //for (const key in SOUNDS) {
+  //  const toBeSound = await asyncSoundLoader(URL + "src/audios/" + toKebabCase(key) + ".mp3") as Sound
+  //  toBeSound.playFromBegin = function() { this.currentTime = 0; this.play() }
+  //  if (["mainTheme", "win", "name"].includes(key)) toBeSound.loop = true;
+  //  SOUNDS[key as keyof typeof SOUNDS] = toBeSound;
+  //}
 }
 
 export function getSmallDeathAnim(t: Enemy) {

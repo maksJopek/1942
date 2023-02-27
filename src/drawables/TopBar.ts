@@ -43,7 +43,7 @@ export class TopBar extends Drawable {
     });
     if (this.bgd >= 2580) {
       // 9 41
-      [..."shooting down ".split(''), ...(this.shootedDown / 32).toFixed(0).toString().padStart(3, '0').split(''), '%'].forEach((char, i) => {
+      [..."shooting down ".split(''), ...(this.shootedDown * 100 / 32).toFixed(0).toString().padStart(3, '0').split(''), '%'].forEach((char, i) => {
         ctx.drawImage(IMGS.font.white[char], 9 + i * 17, 41, 15, 8)
       });
       [..."bonus".split('')].forEach((char, i) => {

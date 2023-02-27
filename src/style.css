@@ -1,6 +1,10 @@
 body {
   display: grid; 
   height: 100vh;
+  background: black;
+  /*background: linear-gradient(45deg, #79d570, #a28fff);*/
+	font-family: 'prstart';
+  color: white;
 }
 canvas {
   --scale: 3;
@@ -10,4 +14,61 @@ canvas {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   border: 1px solid black;
+  display: none;
+}
+.help {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  display: none;
+}
+
+.h-gradient {
+  font-size: 4rem;
+  text-align: center;
+  background: linear-gradient(-45deg, #6355a4, #e89a3e);
+  /* #f7ff6c */
+	background-size: 300%;
+  letter-spacing: 0.1rem;
+	font-weight: 900;
+	font-size: 4rem;
+	background-clip: text;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	animation: bg-animation 6s ease-in-out infinite;
+  place-self: center;
+}
+@keyframes bg-animation {
+	0% { background-position: 0px 50%; }
+	50% { background-position: 100% 50%; }
+	100% { background-position: 0px 50%; }
+}
+
+button {
+	font-family: 'prstart';
+	font-size: 3rem;
+  color: white;
+  padding: 2rem;
+  border-top-left-radius: 4rem;
+  border-bottom-right-radius: 4rem;
+  border-top-right-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+  /*background-color: #6355a4;*/
+  background: linear-gradient(-45deg, #6355a4, #e89a3e);
+  place-self: center;
+  opacity: 0;
+}
+button.visible {
+  opacity: 1;
+  transition: opacity 1s ease-in-out;
+}
+
+@font-face {
+    font-family: 'prstart';
+    src: url('/src/static/prstart-webfont.woff2') format('woff2'),
+         url('/src/static/prstart-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }

@@ -4,6 +4,9 @@
 //   up: boolean;
 //   down: boolean;
 //   fire: boolean;
+
+import { helpTxt } from "./consts";
+
 // }
 export const keys = {
   right: false,
@@ -27,7 +30,7 @@ function setKey(key: string, val: boolean, repeat: boolean) {
   else if (["a", "h"].includes(key)) { keys.left = val; keys.lastx = "left" }
   else if (["s", "j"].includes(key)) { keys.down = val; keys.lasty = "down" }
   else if (["d", "l"].includes(key)) { keys.right = val; keys.lastx = "right" }
-  else if (["m", ";", "/"].includes(key)) { keys.fire = val; keys.repeat = repeat }
+  else if (["m", ";", "/"].includes(key)) { keys.fire = val; keys.repeat = repeat; helpTxt.style.display = "none"; }
   else if ([" "].includes(key)) keys.roll = val;
   // else if (["r"].includes(key)) location.reload();
   // else if (["f"].includes(key)) keys.fps = 50;

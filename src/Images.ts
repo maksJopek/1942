@@ -164,9 +164,11 @@ export async function loadAllImages() {
     // IMGS[key as keyof typeof IMGS] = await asyncImageLoader(URL + "src/imgs/" + toKebabCase(key) + ".png") as any
   }
   const imgs = await Promise.all(prImgs)
-  for (const [i, key] of Object.keys(IMGS).entries()) {
+  let i = 0;
+  for (const key of Object.keys(IMGS)) {
     if (["empty", "font", "start"].includes(key)) continue;
     IMGS[key as keyof typeof IMGS] = imgs[i]
+    i++;
   }
 
   const prLetters = {} as { [key: string]: Promise<HTMLImageElement>[] }

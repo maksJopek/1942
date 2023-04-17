@@ -11,5 +11,3 @@ export class Selector extends Drawable {
     ctx.drawImage(this.sprite, this.x, this.y)
   }
 }
-
-
